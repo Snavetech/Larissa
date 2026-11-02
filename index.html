@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff8ee">
+    <meta name="description" content="A small surprise quest for Larissa, made by Evans.">
+    <title>A surprise for Larissa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&amp;family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#game">Skip to the surprise</a>
+
+    <div class="ambient-shape ambient-shape--one" aria-hidden="true"></div>
+    <div class="ambient-shape ambient-shape--two" aria-hidden="true"></div>
+    <div class="ambient-dots" aria-hidden="true"></div>
+
+    <div class="game-shell">
+      <header class="game-hud">
+        <div class="quest-status">
+          <p class="quest-status__eyebrow" id="quest-label"></p>
+          <div class="quest-status__row">
+            <span class="quest-status__level" id="level-label"></span>
+            <div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+              <span class="progress-track__fill" id="progress-fill"></span>
+            </div>
+          </div>
+        </div>
+
+        <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false">
+          <svg class="sound-toggle__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 9v6h4l5 4V5L9 9H5Z"></path>
+            <path class="sound-wave" d="M17 9.2c.7.7 1 1.6 1 2.8s-.3 2.1-1 2.8"></path>
+            <path class="sound-wave" d="M19.4 6.8A7.4 7.4 0 0 1 21 12a7.4 7.4 0 0 1-1.6 5.2"></path>
+            <path class="sound-slash" d="M4 4l16 16"></path>
+          </svg>
+          <span id="sound-label"></span>
+        </button>
+      </header>
+
+      <main class="game" id="game">
+        <section class="scene scene--start is-active" id="scene-start" data-scene="start" aria-labelledby="start-title">
+          <div class="scene__inner start-layout">
+            <div class="start-sticker start-sticker--top" id="start-initials" aria-hidden="true"></div>
+            <div class="start-burst" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+              <div class="start-burst__center" id="start-burst-initial"></div>
+            </div>
+            <p class="scene-kicker" id="start-kicker"></p>
+            <h1 class="display-title display-title--hero" id="start-title" tabindex="-1"></h1>
+            <p class="scene-copy scene-copy--wide" id="start-subtitle"></p>
+            <button class="primary-button primary-button--glow" id="start-button" type="button">
+              <span id="start-button-label"></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+            </button>
+            <p class="tiny-note" id="start-note"></p>
+            <div class="start-sticker start-sticker--bottom" id="start-sticker-progress" aria-hidden="true"></div>
+          </div>
+        </section>
+
+        <section class="scene scene--gift" id="scene-gift" data-scene="gift" aria-labelledby="gift-title" hidden>
+          <div class="scene__inner">
+            <div class="scene-heading">
+              <p class="scene-kicker" id="gift-kicker"></p>
+              <h2 class="display-title" id="gift-title" tabindex="-1"></h2>
+              <p class="scene-copy" id="gift-instruction"></p>
+            </div>
+
+            <button class="gift-interaction" id="gift-button" type="button" aria-describedby="gift-hint">
+              <span class="gift" aria-hidden="true">
+                <span class="gift__shadow"></span>
+                <span class="gift__box"></span>
+                <span class="gift__ribbon gift__ribbon--vertical"></span>
+                <span class="gift__lid"></span>
+                <span class="gift__ribbon gift__ribbon--lid"></span>
+                <span class="gift__bow gift__bow--left"></span>
+                <span class="gift__bow gift__bow--right"></span>
+                <span class="gift__knot"></span>
+                <span class="gift__spark gift__spark--one"></span>
+                <span class="gift__spark gift__spark--two"></span>
+                <span class="gift__spark gift__spark--three"></span>
+              </span>
+              <span class="tap-hint" id="gift-hint"></span>
+            </button>
+
+            <div class="gift-reveal" id="gift-reveal" aria-live="polite" hidden>
+              <span class="gift-reveal__star" aria-hidden="true"></span>
+              <p id="gift-reveal-copy"></p>
+              <button class="primary-button gift-continue" id="gift-continue" type="button">
+                <span id="gift-continue-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="scene scene--paths" id="scene-paths" data-scene="paths" aria-labelledby="paths-title" hidden>
+          <div class="scene__inner">
+            <div class="scene-heading">
+              <p class="scene-kicker" id="paths-kicker"></p>
+              <h2 class="display-title" id="paths-title" tabindex="-1"></h2>
+              <p class="scene-copy" id="paths-instruction"></p>
+            </div>
+
+            <div class="path-options" id="path-options"></div>
+
+            <div class="path-reveal" id="path-reveal" aria-live="polite" hidden>
+              <p class="mini-label" id="path-result-label"></p>
+              <figure class="photo-card photo-card--path">
+                <div class="photo-card__tape" aria-hidden="true"></div>
+                <img id="path-photo" src="" alt="">
+                <figcaption>
+                  <strong id="path-name"></strong>
+                  <span id="path-caption"></span>
+                </figcaption>
+              </figure>
+              <button class="primary-button" id="path-continue" type="button">
+                <span id="path-continue-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="scene scene--collect" id="scene-collect" data-scene="collect" aria-labelledby="collect-title" hidden>
+          <div class="scene__inner">
+            <div class="scene-heading scene-heading--with-counter">
+              <div>
+                <p class="scene-kicker" id="collect-kicker"></p>
+                <h2 class="display-title" id="collect-title" tabindex="-1"></h2>
+                <p class="scene-copy" id="collect-instruction"></p>
+              </div>
+              <output class="collect-counter" id="collect-counter" aria-live="polite"></output>
+            </div>
+
+            <div class="collection-field" id="collection-field">
+              <div class="collection-field__sky" aria-hidden="true"></div>
+              <div id="collect-targets"></div>
+              <figure class="collection-popover" id="collection-popover" aria-live="polite" hidden>
+                <img id="collection-popover-photo" src="" alt="">
+                <figcaption id="collection-popover-caption"></figcaption>
+              </figure>
+              <div class="collection-complete" id="collection-complete" role="status" aria-live="polite" aria-atomic="true" hidden>
+                <span class="collection-complete__seal" aria-hidden="true"></span>
+                <strong id="collection-complete-title"></strong>
+                <span id="collection-complete-copy"></span>
+              </div>
+            </div>
+
+            <div class="collected-reel" id="collected-reel" aria-label="Collected photos"></div>
+            <button class="primary-button collect-continue" id="collect-continue" type="button" hidden>
+              <span id="collect-continue-label"></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </section>
+
+        <section class="scene scene--quiz" id="scene-quiz" data-scene="quiz" aria-labelledby="quiz-title" hidden>
+          <div class="scene__inner">
+            <div class="scene-heading">
+              <p class="scene-kicker" id="quiz-kicker"></p>
+              <h2 class="display-title" id="quiz-title" tabindex="-1"></h2>
+              <p class="scene-copy" id="quiz-instruction"></p>
+            </div>
+
+            <div class="quiz-card" id="quiz-card">
+              <div class="quiz-card__number" aria-hidden="true">?</div>
+              <p class="quiz-question" id="quiz-question"></p>
+              <div class="answer-list" id="answer-list"></div>
+              <p class="quiz-feedback" id="quiz-feedback" aria-live="polite"></p>
+            </div>
+
+            <button class="primary-button" id="quiz-continue" type="button" hidden>
+              <span id="quiz-continue-label"></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </section>
+
+        <section class="scene scene--gallery" id="scene-gallery" data-scene="gallery" aria-labelledby="gallery-title" hidden>
+          <div class="scene__inner">
+            <div class="scene-heading">
+              <p class="scene-kicker" id="gallery-kicker"></p>
+              <h2 class="display-title" id="gallery-title" tabindex="-1"></h2>
+              <p class="scene-copy" id="gallery-instruction"></p>
+            </div>
+
+            <div class="gallery-wrap">
+              <button class="gallery-arrow gallery-arrow--previous" id="gallery-previous" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg>
+              </button>
+
+              <div class="gallery-stage" id="gallery-stage">
+                <figure class="memory-card" id="memory-card">
+                  <div class="memory-card__tape" aria-hidden="true"></div>
+                  <div class="memory-card__photo-wrap">
+                    <img id="gallery-photo" src="" alt="">
+                  </div>
+                  <figcaption>
+                    <span class="memory-card__number" id="gallery-card-number"></span>
+                    <strong id="gallery-card-title"></strong>
+                    <span id="gallery-card-caption"></span>
+                  </figcaption>
+                </figure>
+              </div>
+
+              <button class="gallery-arrow gallery-arrow--next" id="gallery-next" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+
+            <div class="gallery-footer">
+              <span class="gallery-count" id="gallery-count"></span>
+              <div class="gallery-dots" id="gallery-dots" aria-hidden="true"></div>
+            </div>
+            <p class="sr-only" id="gallery-announcement" aria-live="polite" aria-atomic="true"></p>
+            <p class="swipe-note" id="swipe-note"></p>
+          </div>
+        </section>
+
+        <section class="scene scene--final" id="scene-final" data-scene="final" aria-labelledby="final-title" hidden>
+          <div class="scene__inner final-layout">
+            <div class="final-seal" aria-hidden="true">
+              <span></span>
+              <strong id="final-initial"></strong>
+            </div>
+            <p class="scene-kicker" id="final-kicker"></p>
+            <h2 class="display-title display-title--final" id="final-title" tabindex="-1"></h2>
+            <div class="final-note">
+              <span class="final-note__tape" aria-hidden="true"></span>
+              <p id="final-message"></p>
+              <p class="final-signoff" id="final-signoff"></p>
+            </div>
+            <p class="final-small" id="final-small"></p>
+            <button class="primary-button primary-button--dark" id="play-again" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"></path></svg>
+              <span id="play-again-label"></span>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="confetti-layer" id="confetti-layer" aria-hidden="true"></div>
+
+    <noscript>
+      <div class="noscript-message">This surprise needs JavaScript enabled to play.</div>
+    </noscript>
+  </body>
+</html>
