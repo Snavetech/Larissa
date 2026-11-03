@@ -37,7 +37,7 @@ const questA = [
   },
   // PLACEHOLDER 4 OF 7 - DRINKS
   {
-    question: "I place I love",
+    question: "For place I love",
     options: [
       { label: "Cinema", reveal: "I love going to the cinema but it is not it." },
       { label: "Library", reveal: "Correct, Choosing library because thats where I met you." },
