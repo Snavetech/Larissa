@@ -1,5 +1,144 @@
 "use strict";
 
+// ==========================================================================
+// QUEST PLACEHOLDERS - EDIT THESE FIRST
+// Keep exactly two options per question. Set `mine` to 0 for the first option
+// or 1 for the second option. Questions stay in this exact order.
+// Quest A uses each option's reveal. Quest B shows only Right or Wrong, which
+// is calculated from `mine`; its options only need a label.
+// ==========================================================================
+const questA = [
+  // PLACEHOLDER 1 OF 7 - FOOD
+  {
+    question: "My favourite food is...",
+    options: [
+      { label: "Beans", reveal: "Who doesn't love beans?" },
+      { label: "Rice", reveal: "I told you I don't like rice." },
+    ],
+    mine: 0,
+  },
+  // PLACEHOLDER 2 OF 7 - MUSIC
+  {
+    question: "For JW music, I prefer...",
+    options: [
+      { label: "Original Songs", reveal: "Nope, it is not it " },
+      { label: "Kingdom Melodies", reveal: "A strong choice with an even stronger chorus." },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 3 OF 7 - WEEKEND PLANS
+  {
+    question: "My ideal weekend plan is...",
+    options: [
+      { label: "Staying in", reveal: "If not field service I prefer staying in." },
+      { label: "Going out", reveal: "Eyah wrong answer." },
+    ],
+    mine: 0,
+  },
+  // PLACEHOLDER 4 OF 7 - DRINKS
+  {
+    question: "I place I love",
+    options: [
+      { label: "Cinema", reveal: "I love going to the cinema but it is not it." },
+      { label: "Library", reveal: "Correct, Choosing library because thats where I met you." },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 5 OF 7 - MOVIES
+  {
+    question: "For movie night, I pick...",
+    options: [
+      { label: "Comedy", reveal: "Correct, If nobody laughs, the movie has failed its mission." },
+      { label: "Action", reveal: "Shey dem say make we nor de watch action film." },
+    ],
+    mine: 0,
+  },
+  // PLACEHOLDER 6 OF 7 - SEASON
+  {
+    question: "My favourite season is...",
+    options: [
+      { label: "Dry season", reveal: "Wrong answer, but you tried." },
+      { label: "Rainy season", reveal: "Correct, as expected." },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 7 OF 7 - MORNING OR NIGHT
+  {
+    question: "I am more productive...",
+    options: [
+      { label: "In the morning", reveal: "Morning keh, If nor be responsibilities, I suppose de sleep reach 10am." },
+      { label: "Late at night", reveal: "Correct, the night is always quiet and peaceful." },
+    ],
+    mine: 1,
+  },
+];
+
+const questB = [
+  // PLACEHOLDER 1 OF 7 - EXPLORATION
+  {
+    question: "Would I rather...",
+    options: [
+      { label: "Explore space" },
+      { label: "Explore the sea" },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 2 OF 7 - ENTERTAINMENT
+  {
+    question: "Would I rather...",
+    options: [
+      { label: "Watch a movie" },
+      { label: "Read a book" },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 3 OF 7 - CHORES
+  {
+    question: "Would I rather...",
+    options: [
+      { label: "Select beans" },
+      { label: "Peel yam" },
+    ],
+    mine: 0,
+  },
+  // PLACEHOLDER 4 OF 7 - FINANCE
+  {
+    question: "Would I rather...",
+    options: [
+      { label: "Save my money" },
+      { label: "Invest my money" },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 5 OF 7 - TECH
+  {
+    question: "Would I rather use...",
+    options: [
+      { label: "An iPhone" },
+      { label: "An Android" },
+    ],
+    mine: 1,
+  },
+  // PLACEHOLDER 6 OF 7 - DRINKS
+  {
+    question: "Would I rather drink...",
+    options: [
+      { label: "Nutri-Choco" },
+      { label: "Nutri-Milk" },
+    ],
+    mine: 0,
+  },
+  // PLACEHOLDER 7 OF 7 - PERFORMING ARTS
+  {
+    question: "Would I rather...",
+    options: [
+      { label: "Sing" },
+      { label: "Dance" },
+    ],
+    mine: 1,
+  },
+];
+
 // ============================================================================
 // PERSONALIZE HERE
 // Every editable word, photo path, quiz answer, and final note lives in this
@@ -60,8 +199,9 @@ const CONTENT = {
     soundOffLabel: "Turn sound effects off",
     soundOnLabel: "Turn sound effects on",
     initialsSeparator: " + ",
-    startSticker: "START",
-    startButton: "Start the quest",
+    startSticker: "TODAY",
+    startButton: "Play today's quest",
+    replayOriginal: "Replay the original surprise",
     continueButton: "Next level",
     pathNumberTemplate: "Path {number}",
     pathHint: "Tap to peek inside",
@@ -76,15 +216,18 @@ const CONTENT = {
     galleryAnnouncementTemplate: "Memory {current} of {total}. {title}. {caption}",
     previousMemory: "Show the previous memory",
     nextMemory: "Show the next memory",
-    openFinal: "Open the final surprise",
+    openNextQuest: "Open Think Like Evans",
     swipeNote: "Tip: you can swipe the card too.",
+    questionTemplate: "Question {current} of {total}",
+    nextQuestion: "Next",
+    seeResults: "See my score",
     playAgain: "Play again",
   },
   start: {
-    kicker: "A tiny quest from {sender}",
-    title: "Hi {recipient}, there's something for you",
-    subtitle: "Six little levels, a handful of memories, and one very important message at the end.",
-    note: "Sound is optional. Curiosity is highly recommended.",
+    kicker: "Today's quest from {sender}",
+    title: "Hi {recipient}, today's challenge is ready",
+    subtitle: "Two new games are waiting: first think like Evans, then try to be completely different.",
+    note: "Fresh questions. Same friendship. No warm-up required.",
   },
   gift: {
     kicker: "Level 1: First things first",
@@ -211,8 +354,30 @@ const CONTENT = {
       },
     ],
   },
+  questA: {
+    kicker: "Level 6: Think like Evans",
+    title: "Think Like Evans",
+    instruction: "Pick the option you think Evans picked. Every match earns one point.",
+    startButton: "Start matching",
+    matchFeedback: "Same as me!",
+    missFeedback: "Not this time.",
+    resultKicker: "Quest A complete",
+    resultTitle: "Your Evans radar says...",
+    continueButton: "Continue to Quest B",
+  },
+  questB: {
+    kicker: "Level 7: Be different",
+    title: "Be Different",
+    instruction: "This time, pick the opposite of Evans. Matching him earns nothing.",
+    startButton: "Choose differently",
+    pointFeedback: "Right",
+    missFeedback: "Wrong",
+    resultKicker: "Quest B complete",
+    resultTitle: "Your rebel score is...",
+    continueButton: "Open the final message",
+  },
   final: {
-    kicker: "Level 6: The real reason",
+    kicker: "Level 8: The real reason",
     title: "{recipient}, you make life brighter",
     message:
       "This tiny quest is really just a long way of saying: I am very glad to call you my friend. You are industrious and hardworking, but what I admire just as much is the joy, confidence, and warmth you carry with you.\n\nI kept our picture and my favourite picture of you for the end on purpose. One reminds me how grateful I am for our friendship; the other feels bright, genuine, and completely you.\n\nThank you for the honest moments, the ridiculous moments, and the friendship that makes ordinary days worth remembering. This one is just because you deserve to be celebrated on completely normal days too.",
@@ -229,7 +394,9 @@ const SCENE_LEVELS = {
   collect: 3,
   quiz: 4,
   gallery: 5,
-  final: 6,
+  questA: 6,
+  questB: 7,
+  final: 8,
 };
 
 const COLLECTION_POSITIONS = [
@@ -249,8 +416,46 @@ const state = {
   quizSolved: false,
   wrongAttempts: 0,
   galleryIndex: 0,
+  quests: {
+    a: { index: 0, score: 0, answered: false },
+    b: { index: 0, score: 0, answered: false },
+  },
   soundEnabled: false,
   audioContext: null,
+};
+
+const QUEST_CONFIG = {
+  a: {
+    data: questA,
+    copy: CONTENT.questA,
+    prefix: "quest-a",
+    includeOptionReveal: true,
+    earnsPoint: (choiceIndex, mineIndex) => choiceIndex === mineIndex,
+    feedback: (earnedPoint) =>
+      earnedPoint ? CONTENT.questA.matchFeedback : CONTENT.questA.missFeedback,
+    resultMessage: (score) => {
+      if (score === 7) return "Okay, you know me too well.";
+      if (score >= 5) return "Impressive. We're basically twins.";
+      if (score >= 3) return "Not bad, but we need to hang out more.";
+      return "Have we even met?";
+    },
+  },
+  b: {
+    data: questB,
+    copy: CONTENT.questB,
+    prefix: "quest-b",
+    includeOptionReveal: false,
+    earnsPoint: (choiceIndex, mineIndex) => choiceIndex !== mineIndex,
+    feedback: (earnedPoint) =>
+      earnedPoint ? CONTENT.questB.pointFeedback : CONTENT.questB.missFeedback,
+    resultMessage: (score) => {
+      if (score === 7) return "Born to be different.";
+      if (score >= 5) return "Independent thinker. Evans could never.";
+      if (score >= 3) return "Half rebel, half suspiciously in sync.";
+      if (score >= 1) return "A little different. Mostly copycat.";
+      return "You copied me every time.";
+    },
+  },
 };
 
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -299,6 +504,7 @@ function setStaticContent() {
     "start-title": CONTENT.start.title,
     "start-subtitle": CONTENT.start.subtitle,
     "start-button-label": CONTENT.ui.startButton,
+    "full-quest-button-label": CONTENT.ui.replayOriginal,
     "start-note": CONTENT.start.note,
     "gift-kicker": CONTENT.gift.kicker,
     "gift-title": CONTENT.gift.title,
@@ -326,6 +532,22 @@ function setStaticContent() {
     "gallery-title": CONTENT.gallery.title,
     "gallery-instruction": CONTENT.gallery.instruction,
     "swipe-note": CONTENT.ui.swipeNote,
+    "quest-a-kicker": CONTENT.questA.kicker,
+    "quest-a-title": CONTENT.questA.title,
+    "quest-a-instruction": CONTENT.questA.instruction,
+    "quest-a-start-label": CONTENT.questA.startButton,
+    "quest-a-next-label": CONTENT.ui.nextQuestion,
+    "quest-a-result-kicker": CONTENT.questA.resultKicker,
+    "quest-a-result-title": CONTENT.questA.resultTitle,
+    "quest-a-continue-label": CONTENT.questA.continueButton,
+    "quest-b-kicker": CONTENT.questB.kicker,
+    "quest-b-title": CONTENT.questB.title,
+    "quest-b-instruction": CONTENT.questB.instruction,
+    "quest-b-start-label": CONTENT.questB.startButton,
+    "quest-b-next-label": CONTENT.ui.nextQuestion,
+    "quest-b-result-kicker": CONTENT.questB.resultKicker,
+    "quest-b-result-title": CONTENT.questB.resultTitle,
+    "quest-b-continue-label": CONTENT.questB.continueButton,
     "final-kicker": CONTENT.final.kicker,
     "final-title": CONTENT.final.title,
     "final-message": CONTENT.final.message,
@@ -344,6 +566,7 @@ function setStaticContent() {
   setText("final-initial", recipientInitial);
 
   byId("progress-track").setAttribute("aria-label", CONTENT.ui.progressLabel);
+  byId("progress-track").setAttribute("aria-valuemax", String(SCENE_LEVELS.final));
   byId("gift-button").setAttribute("aria-label", CONTENT.gift.instruction);
   byId("collected-reel").setAttribute("aria-label", CONTENT.ui.collectedPhotosLabel);
   byId("gallery-previous").setAttribute("aria-label", CONTENT.ui.previousMemory);
@@ -638,8 +861,8 @@ function renderGallery(direction = "") {
 
   previous.disabled = state.galleryIndex === 0;
   const onLastCard = state.galleryIndex === total - 1;
-  next.setAttribute("aria-label", onLastCard ? CONTENT.ui.openFinal : CONTENT.ui.nextMemory);
-  next.title = onLastCard ? CONTENT.ui.openFinal : CONTENT.ui.nextMemory;
+  next.setAttribute("aria-label", onLastCard ? CONTENT.ui.openNextQuest : CONTENT.ui.nextMemory);
+  next.title = onLastCard ? CONTENT.ui.openNextQuest : CONTENT.ui.nextMemory;
   next.classList.toggle("is-final", onLastCard);
 
   document.querySelectorAll(".gallery-dot").forEach((dot, index) => {
@@ -655,7 +878,7 @@ function renderGallery(direction = "") {
 
 function showNextGalleryCard() {
   if (state.galleryIndex >= CONTENT.gallery.cards.length - 1) {
-    goToScene("final");
+    goToScene("questA");
     return;
   }
   state.galleryIndex += 1;
@@ -668,6 +891,159 @@ function showPreviousGalleryCard() {
   state.galleryIndex -= 1;
   renderGallery("previous");
   playSound("tap");
+}
+
+function resetDuoQuest(key) {
+  const config = QUEST_CONFIG[key];
+  const questState = state.quests[key];
+
+  questState.index = 0;
+  questState.score = 0;
+  questState.answered = false;
+  byId(`${config.prefix}-intro`).hidden = false;
+  byId(`${config.prefix}-play`).hidden = true;
+  byId(`${config.prefix}-result`).hidden = true;
+  byId(`${config.prefix}-reveal`).hidden = true;
+  byId(`${config.prefix}-reveal`).classList.remove("is-visible");
+  byId(`${config.prefix}-options`).replaceChildren();
+  setText(`${config.prefix}-score`, "0");
+  setText(`${config.prefix}-result-score`, "");
+  setText(`${config.prefix}-result-message`, "");
+  setText(`${config.prefix}-next-label`, CONTENT.ui.nextQuestion);
+}
+
+function startDuoQuest(key) {
+  const config = QUEST_CONFIG[key];
+  const questState = state.quests[key];
+
+  questState.index = 0;
+  questState.score = 0;
+  questState.answered = false;
+  byId(`${config.prefix}-intro`).hidden = true;
+  byId(`${config.prefix}-result`).hidden = true;
+  byId(`${config.prefix}-play`).hidden = false;
+  renderDuoQuestQuestion(key);
+  playSound("tap");
+  byId(`${config.prefix}-question`).focus({ preventScroll: false });
+}
+
+function renderDuoQuestQuestion(key) {
+  const config = QUEST_CONFIG[key];
+  const questState = state.quests[key];
+  const entry = config.data[questState.index];
+  const total = config.data.length;
+  const options = byId(`${config.prefix}-options`);
+  const reveal = byId(`${config.prefix}-reveal`);
+
+  questState.answered = false;
+  setText(
+    `${config.prefix}-progress`,
+    format(CONTENT.ui.questionTemplate, {
+      current: questState.index + 1,
+      total,
+    }),
+  );
+  setText(`${config.prefix}-score`, String(questState.score));
+  setText(`${config.prefix}-question`, personalize(entry.question));
+  setText(
+    `${config.prefix}-next-label`,
+    questState.index === total - 1 ? CONTENT.ui.seeResults : CONTENT.ui.nextQuestion,
+  );
+  reveal.hidden = true;
+  reveal.classList.remove("is-visible");
+  setText(`${config.prefix}-reveal-copy`, "");
+  options.replaceChildren();
+
+  entry.options.forEach((option, optionIndex) => {
+    const button = document.createElement("button");
+    const letter = document.createElement("span");
+    const label = document.createElement("span");
+
+    button.className = "duo-quest-option";
+    button.type = "button";
+    button.setAttribute(
+      "aria-label",
+      `Option ${optionIndex + 1}: ${personalize(option.label)}`,
+    );
+    letter.className = "duo-quest-option__letter";
+    letter.textContent = CONTENT.ui.answerLetters[optionIndex] || String(optionIndex + 1);
+    label.textContent = personalize(option.label);
+    button.append(letter, label);
+    button.addEventListener("click", () => answerDuoQuest(key, optionIndex));
+    options.append(button);
+  });
+}
+
+function answerDuoQuest(key, optionIndex) {
+  const config = QUEST_CONFIG[key];
+  const questState = state.quests[key];
+  if (questState.answered) return;
+
+  const entry = config.data[questState.index];
+  const selectedOption = entry.options[optionIndex];
+  const earnedPoint = config.earnsPoint(optionIndex, entry.mine);
+  const buttons = [...byId(`${config.prefix}-options`).querySelectorAll("button")];
+  const reveal = byId(`${config.prefix}-reveal`);
+
+  questState.answered = true;
+  if (earnedPoint) questState.score += 1;
+  setText(`${config.prefix}-score`, String(questState.score));
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+    button.classList.toggle("is-point", index === optionIndex && earnedPoint);
+    button.classList.toggle("is-miss", index === optionIndex && !earnedPoint);
+    button.classList.toggle("is-unselected", index !== optionIndex);
+  });
+
+  reveal.hidden = false;
+  setText(
+    `${config.prefix}-reveal-copy`,
+    config.includeOptionReveal
+      ? `${personalize(selectedOption.reveal)} ${config.feedback(earnedPoint)}`
+      : config.feedback(earnedPoint),
+  );
+  reveal.classList.remove("is-visible");
+  void reveal.offsetWidth;
+  reveal.classList.add("is-visible");
+  playSound(earnedPoint ? "success" : "wrong");
+  byId(`${config.prefix}-reveal-copy`).focus({ preventScroll: false });
+}
+
+function advanceDuoQuest(key) {
+  const config = QUEST_CONFIG[key];
+  const questState = state.quests[key];
+  if (!questState.answered) return;
+
+  if (questState.index >= config.data.length - 1) {
+    showDuoQuestResult(key);
+    return;
+  }
+
+  questState.index += 1;
+  renderDuoQuestQuestion(key);
+  playSound("tap");
+  byId(`${config.prefix}-question`).focus({ preventScroll: false });
+}
+
+function showDuoQuestResult(key) {
+  const config = QUEST_CONFIG[key];
+  const questState = state.quests[key];
+  const total = config.data.length;
+
+  byId(`${config.prefix}-play`).hidden = true;
+  byId(`${config.prefix}-result`).hidden = false;
+  setText(`${config.prefix}-result-score`, `${questState.score} / ${total}`);
+  setText(`${config.prefix}-result-message`, config.resultMessage(questState.score));
+
+  if (questState.score === total) {
+    launchConfetti();
+    playSound("final");
+  } else {
+    playSound("success");
+  }
+
+  byId(`${config.prefix}-result-title`).focus({ preventScroll: false });
 }
 
 function updateHud(sceneName) {
@@ -688,6 +1064,7 @@ function goToScene(sceneName) {
   if (state.transitioning || sceneName === state.currentScene) return;
 
   window.clearTimeout(sceneTimer);
+  clearConfetti();
   state.transitioning = true;
   const current = document.querySelector(`[data-scene="${state.currentScene}"]`);
   const next = document.querySelector(`[data-scene="${sceneName}"]`);
@@ -884,12 +1261,20 @@ function resetGame() {
   resetQuiz();
   state.galleryIndex = 0;
   renderGallery();
+  resetDuoQuest("a");
+  resetDuoQuest("b");
   goToScene("start");
 }
 
 function bindEvents() {
   byId("sound-toggle").addEventListener("click", toggleSound);
   byId("start-button").addEventListener("click", () => {
+    resetDuoQuest("a");
+    resetDuoQuest("b");
+    playSound("tap");
+    goToScene("questA");
+  });
+  byId("full-quest-button").addEventListener("click", () => {
     playSound("tap");
     goToScene("gift");
   });
@@ -912,6 +1297,18 @@ function bindEvents() {
   });
   byId("gallery-previous").addEventListener("click", showPreviousGalleryCard);
   byId("gallery-next").addEventListener("click", showNextGalleryCard);
+  byId("quest-a-start").addEventListener("click", () => startDuoQuest("a"));
+  byId("quest-a-next").addEventListener("click", () => advanceDuoQuest("a"));
+  byId("quest-a-continue").addEventListener("click", () => {
+    playSound("tap");
+    goToScene("questB");
+  });
+  byId("quest-b-start").addEventListener("click", () => startDuoQuest("b"));
+  byId("quest-b-next").addEventListener("click", () => advanceDuoQuest("b"));
+  byId("quest-b-continue").addEventListener("click", () => {
+    playSound("tap");
+    goToScene("final");
+  });
   byId("play-again").addEventListener("click", resetGame);
 
   let touchStartX = null;
@@ -950,6 +1347,8 @@ function initialize() {
   buildQuiz();
   buildGalleryDots();
   renderGallery();
+  resetDuoQuest("a");
+  resetDuoQuest("b");
   bindEvents();
   updateHud("start");
 }

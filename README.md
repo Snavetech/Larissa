@@ -1,6 +1,8 @@
 # Larissa's Surprise Quest
 
-A small mobile-first, six-level friendship game from Evans to Larissa. It uses plain HTML, CSS, and JavaScript, so there is no install or build step.
+A small mobile-first, eight-level friendship game from Evans to Larissa. It uses plain HTML, CSS, and JavaScript, so there is no install or build step.
+
+The start screen opens today's two new quests directly. A smaller replay button still starts the original surprise from Level 1.
 
 ## Open It
 
@@ -38,6 +40,16 @@ Start with these fields:
 `quiz.correctAnswer` is zero-based: `0` means the first answer, `1` means the second, and `2` means the third.
 
 Keep quote marks around text and commas after each field. Use `\n\n` inside `final.message` to add a blank line.
+
+## Customize The Two New Quests
+
+The editable `questA` and `questB` arrays are at the very top of `script.js`. Every entry contains:
+
+- `question`: the question shown to Larissa.
+- `options`: exactly two choices. Quest A uses a `label` and `reveal`; Quest B only needs a `label`.
+- `mine`: Evans's choice, where `0` means the first option and `1` means the second.
+
+Quest A awards a point when Larissa matches `mine`. Quest B uses `mine` to calculate the opposite: choosing `mine` shows `Wrong`, while choosing the other option shows `Right`. The order is never shuffled, so arrange the two options exactly as they should appear.
 
 ## Sound And Motion
 

@@ -25,7 +25,7 @@
           <p class="quest-status__eyebrow" id="quest-label"></p>
           <div class="quest-status__row">
             <span class="quest-status__level" id="level-label"></span>
-            <div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+            <div class="progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0">
               <span class="progress-track__fill" id="progress-fill"></span>
             </div>
           </div>
@@ -53,10 +53,15 @@
             <p class="scene-kicker" id="start-kicker"></p>
             <h1 class="display-title display-title--hero" id="start-title" tabindex="-1"></h1>
             <p class="scene-copy scene-copy--wide" id="start-subtitle"></p>
-            <button class="primary-button primary-button--glow" id="start-button" type="button">
-              <span id="start-button-label"></span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-            </button>
+            <div class="start-actions">
+              <button class="primary-button primary-button--glow" id="start-button" type="button">
+                <span id="start-button-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+              <button class="secondary-button" id="full-quest-button" type="button">
+                <span id="full-quest-button-label"></span>
+              </button>
+            </div>
             <p class="tiny-note" id="start-note"></p>
             <div class="start-sticker start-sticker--bottom" id="start-sticker-progress" aria-hidden="true"></div>
           </div>
@@ -219,6 +224,96 @@
             </div>
             <p class="sr-only" id="gallery-announcement" aria-live="polite" aria-atomic="true"></p>
             <p class="swipe-note" id="swipe-note"></p>
+          </div>
+        </section>
+
+        <section class="scene scene--duo-quest scene--quest-a" id="scene-quest-a" data-scene="questA" aria-labelledby="quest-a-title" hidden>
+          <div class="scene__inner duo-quest-layout">
+            <div class="duo-quest-intro" id="quest-a-intro">
+              <span class="duo-quest-mark" aria-hidden="true">A</span>
+              <p class="scene-kicker" id="quest-a-kicker"></p>
+              <h2 class="display-title" id="quest-a-title" tabindex="-1"></h2>
+              <p class="scene-copy" id="quest-a-instruction"></p>
+              <button class="primary-button primary-button--glow" id="quest-a-start" type="button">
+                <span id="quest-a-start-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+
+            <div class="duo-quest-play" id="quest-a-play" hidden>
+              <div class="duo-quest-toolbar">
+                <span id="quest-a-progress"></span>
+                <output aria-live="polite">Score <strong id="quest-a-score">0</strong></output>
+              </div>
+              <div class="duo-quest-card">
+                <p class="duo-quest-question" id="quest-a-question" tabindex="-1"></p>
+                <div class="duo-quest-options" id="quest-a-options"></div>
+                <div class="duo-quest-reveal" id="quest-a-reveal" hidden>
+                  <p id="quest-a-reveal-copy" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+                  <button class="primary-button duo-quest-next" id="quest-a-next" type="button">
+                    <span id="quest-a-next-label"></span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="duo-quest-result" id="quest-a-result" hidden>
+              <span class="duo-quest-result__burst" aria-hidden="true"></span>
+              <p class="scene-kicker" id="quest-a-result-kicker"></p>
+              <h2 class="display-title" id="quest-a-result-title" tabindex="-1"></h2>
+              <output class="duo-quest-result__score" id="quest-a-result-score" aria-live="polite"></output>
+              <p class="scene-copy duo-quest-result__copy" id="quest-a-result-message"></p>
+              <button class="primary-button" id="quest-a-continue" type="button">
+                <span id="quest-a-continue-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="scene scene--duo-quest scene--quest-b" id="scene-quest-b" data-scene="questB" aria-labelledby="quest-b-title" hidden>
+          <div class="scene__inner duo-quest-layout">
+            <div class="duo-quest-intro" id="quest-b-intro">
+              <span class="duo-quest-mark" aria-hidden="true">B</span>
+              <p class="scene-kicker" id="quest-b-kicker"></p>
+              <h2 class="display-title" id="quest-b-title" tabindex="-1"></h2>
+              <p class="scene-copy" id="quest-b-instruction"></p>
+              <button class="primary-button primary-button--glow" id="quest-b-start" type="button">
+                <span id="quest-b-start-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
+
+            <div class="duo-quest-play" id="quest-b-play" hidden>
+              <div class="duo-quest-toolbar">
+                <span id="quest-b-progress"></span>
+                <output aria-live="polite">Score <strong id="quest-b-score">0</strong></output>
+              </div>
+              <div class="duo-quest-card">
+                <p class="duo-quest-question" id="quest-b-question" tabindex="-1"></p>
+                <div class="duo-quest-options" id="quest-b-options"></div>
+                <div class="duo-quest-reveal" id="quest-b-reveal" hidden>
+                  <p id="quest-b-reveal-copy" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+                  <button class="primary-button duo-quest-next" id="quest-b-next" type="button">
+                    <span id="quest-b-next-label"></span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="duo-quest-result" id="quest-b-result" hidden>
+              <span class="duo-quest-result__burst" aria-hidden="true"></span>
+              <p class="scene-kicker" id="quest-b-result-kicker"></p>
+              <h2 class="display-title" id="quest-b-result-title" tabindex="-1"></h2>
+              <output class="duo-quest-result__score" id="quest-b-result-score" aria-live="polite"></output>
+              <p class="scene-copy duo-quest-result__copy" id="quest-b-result-message"></p>
+              <button class="primary-button" id="quest-b-continue" type="button">
+                <span id="quest-b-continue-label"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+              </button>
+            </div>
           </div>
         </section>
 
